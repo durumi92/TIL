@@ -1,0 +1,62 @@
+# 0602 SPARK
+
+SPARK 0602오전수업
+
+AWS 접속 ubuntu
+
+cd . ssh 
+
+ssh -i "M-en.pem" [ubuntu@15.152.211.160](mailto:ubuntu@15.152.211.160)(나의 퍼블릭 IPv4)
+
+1. conda activate spark_env
+2. pip install notebook
+3. python
+4. from notebook.auth import passwd
+5. passwd()
+6. Enter password:1111
+Verify password:1111
+7. u'argon2:$argon2id$v=19$m=10240,t=10,p=8$NnoUlH76BAEy3paDeRCUkg$RM662fydnTMoDNRA0RxGrVQtC/IK
+8. 나가기 > Ctrl +d
+9. jupyter notebook —generate-config (노트북 설정파일 만들어주는 것)
+10. sudo vim /home/ubuntu/.jupyter/jupyter_notebook_config.py
+11. c= get_config()
+c.NotebookApp.password = u'argon2:$argon2id$v=19$m=10240,t=10,p=8$58ZqyL0skLqXhSm35YqEBQ$tTJ+Hrs0CNBNRV/Q1kAIAV1zfV3Ca8JQTJUpljcnCQw’
+c.NotebookApp.ip = <<<// "aws:주소 넣기 172.~>>>
+c.NotebookApp.notebook_dir = '/home/ubuntu/working/spark-examples'
+12. mkdir -p ./working/spark-examples
+13. jupyter-notebook --allow-root
+14. (주피터 new python3)import pyspark
+pyspark__**version__**
+
+# 
+
+- IP 주소 : 인터넷 상  computer 상 주소
+
+-BindIp > 서버가 실핼 될 IP주소
+
+>>0.0.0.0 (어디에서든 접속이 가능)/보안이 취약
+
+ubuntu 접속>conda activate spark_env
+>> jupyter notebook --allow-root
+
+# Program 과 Thread
+
+Program이 실행되면 Process
+
+CPU
+
+RAM
+
+DISK(HDD.SSD) 
+
+Process >> Task >> Task
+
+# Key-Value RDD
+
+(Key,Value)쌍을 갖는다. (=Pairs RDD)
+
+airs = rdd.map(lambda x : (x, 1))
+
+![20230602_114807.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c7cffe5d-c0dc-4c86-aa50-c39c8cfdcddc/20230602_114807.png)
+
+Key 를 기준으로 고차원 연산 가능 >> Group by와 유사
