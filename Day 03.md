@@ -1,4 +1,4 @@
-# TIL Day 03 [DSDE]
+# TIL Day 3 [DSDE]
 
 > 2023년 03월 17일 목요일
 
