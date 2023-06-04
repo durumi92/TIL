@@ -1,0 +1,120 @@
+0531 #1  mongodb 
+
+mongodb는
+“No Relational Operational Database SQL”, 즉 관계형 데이터베이스가 아닌 SQL 이라는 의미
+
+> 제약조건 및 컬럼 정보설정
+
+BSON> Binart JSON
+ ( 2진화 시킨 구조임)
+
+Linking> DB Ref (양이 많은 데이터인경우)
+Embedded> 대부분 사용함
+
+-RDB 정규화 >Table분할&관계설정
+
+0531 mongodb #2
+
+mongodb  에서 find 를 한다면 (query , projection)
+
+Query: 조건(where) 
+Projection : 투영(select)>보이지는 것
+
+몽고 연산키워드가 있음> 비교연산자 > 결과가 True,False 로 나옴
+
+조건이 여러개면 배열을 쓴다. 
+
+
+
+db.info.find().sort({level: 1});
+
+#레벨 내림 차순 subject 오름
+db.info.find().sort({level: -1, subject : 1});
+
+나갈떈 exit;
+
+0531 #2 DFS(Distributed File System)
+
+
+<java install step>
+
+-----------------------------
+sudo apt upgrade
+
+sudo apt update
+
+sudo apt-get install openjdk-11-jdk
+
+java -version
+
+javac -version
+
+
+JDK( Java Development Kit)> 개발도구
+
+Compile>>
+
+JRE(Java Runtime Enviroment )>실행환경
+
+** JAVA 
+- 이식성 >> os에 구애받지 않음
+
+APP>> Jar (자바로 이루어진 실행파일)
+JRE(JDK)
+JVM(Java virtul machine) 가상머신
+OS
+
+-----------------
+JAVA 어디에서든 실행할 수 있게 하는 것
+##환경변수로 등록(계정 환경변수)하기 
+
+which java   (which : 프로그램 어디에 있는지 알려줌)
+
+>>/usr/bin/java(바로가기 아이콘이랑 유사)
+-------------------------------------
+ readlink -f $(which java)
+
+>>> 실제 경로임
+/usr/lib/jvm/java-11-openjdk-amd64/bin/java
+
+sudo vim ~/.bashrc
+
+
+
+#JAVA PATH
+export JAVA_HOME = /usr/lib/jvm/java-11-openjdk-amd64
+
+export PATH = $PATH:$JAVA_HOME/bin (실행파일이 들어있는경로)
+
+esc > :wq(저장후 나오기)
+
+ 'q!' 저장 안하고 나오기
+
+-$PATH (PATH 불러오기)
+
+' $ ' 변수의 들어있는 값을 확인할 때 /볼 때/사용할 때 
+' : ' 이어붙이기 
+
+
+sudo vim ~/.bashrc
+source ~/.bashrc
+echo $JAVA_HOME
+java -version
+---------------------------------
+root >>최고관리자
+하위 관리자 ubuntu  root 와 유사한 권한 있음
+
+
+
+# Booting
+환경변수 불러오기
+
+/etc/profile > 계정에 상관없이 모두 불러오기
+
+~/.bashrc
+'~' 로그인한 계정의 홈 디렉토리  >> 계정의 이름으로 
+
+>> /home/ubuntu/.bashrc
+'.bashrc' >> 에서만 사용할 환경변수
+
+

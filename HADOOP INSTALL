@@ -1,0 +1,188 @@
+#1  hadoop 설치
+
+wget https://dlcdn.apache.org/hadoop/common/hadoop-3.3.5/hadoop-3.3.5.tar.gz
+----------------------
+tar xvfz hadoop-3.3.5.tar.gz
+------------------------------
+#환경변수 등록
+
+#HADOOP PATH
+export HADOOP_HOME=/home/ubuntu/hadoop-3.3.5
+---------------------------------------------
+export PATH=$PATH:$HADOOP_HOME/bin
+----------------
+source ~/.bashrc
+----------------
+cd $HADOOP_HOME
+-------------
+cd ~
+----------------
+보안키 
+키box
+
+#키 생성
+ssh-keygen -t rsa -P '' -f ~/.ssh/id_rsa
+
+#키 권한설정
+cat ~/.ssh/id_rsa.pub >> ~/.ssh/authorized_keys
+
+>cat 뒤에 따라오는 파일의 내용을 화면에 출력 후 >> cat 이 출력한 내용을 권한 authorized_key
+
+# 키 권한 설정변경
+chmod 0600 ~/.ssh/authorized_keys
+
+------------------------
+vim $HADOOP_HOME/etc/hadoop/core-site.xml
+<configuration>
+        <property>
+                <name>fs.defaultFS</name>
+                <value>hdfs://172.31.45.97:9000</value>
+               </property>
+</configuration>
+
+< value>name 노드가 실행될 주소</value>
+9870 웹서비스 코드
+
+
+vim $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+-----------------
+  결과>>
+
+     <property>
+                <name>dfs.namenode.http-address</name>
+                <value>15.152.211.160:9870</value>
+        </property>
+
+
+---------------------
+
+ localhost 대치>> 프라이빗 IPv4 주소 (EC2 끼리통신)
+<value>hdfs://172.31.45.97:9000</value>
+--------------------------------
+# 2 데이터 노드
+
+vim $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+
+
+>>>> 결과 
+
+<configuration>
+        <property>
+                <name>dfs.replication</name>
+                <value>1</value>
+        </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>/home/ubuntu/hadoop-3.3.5/dfs/name</value>
+        </property>
+        <property>
+                <name>dfs.datanode.name.dir</name>
+                <value>/home/ubuntu/hadoop-3.3.5/dfs/data</value>
+        </property>
+        <property>
+                <name>dfs.namenode.http-address</name>
+                <value>15.152.211.160:9870</value>
+        </property>
+</configuration>
+
+-------------
+relpication (복제 인수는 3.5.7.등 홀수 소수로 나눈다 /아주 큰수로는 안나눔)
+---------------
+namenode =>마스터
+--------------
+# 디렉토리 세팅
+ mkdir -p $HADOOP_HOME/dfs/data
+ mkdir -p $HADOOP_HOME/dfs/name
+------------------------------------
+
+ vim $HADOOP_HOME/etc/hadoop/yarn-site.xml
+
+>>>> 결과
+
+
+<configuration>
+     <property>
+        <name>yarn.nodemanager.aux-services</name>
+        <value>mapreduce_shuffle</value>
+    </property>
+    <property>
+        <name>yarn.nodemanager.env-whitelist</name>
+        <value>JAVA_HOME,HADOOP_COMMON_HOME,HADOOP_HDFS_HOME,HADOOP_CONF_DIR,CLASSPATH_PREPEND_DISTCACHE,HADOOP_YARN_HOME,HADOOP_HOME,PATH,LANG,TZ,HADOOP_MAPRED_HOME</value>
+    </property>
+
+</configuration>
+
+---------------------------------------
+ vim $HADOOP_HOME/etc/hadoop/mapred-site.xml
+>>> 결과 
+
+<configuration>
+    <property>
+        <name>mapreduce.framework.name</name>
+        <value>yarn</value>
+    </property>
+    <property>
+        <name>mapreduce.application.classpath</name>
+        <value>$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/*:$HADOOP_MAPRED_HOME/share/hadoop/mapreduce/lib/*</value>
+    </property>
+</configuration>
+
+
+--------------------------------------------
+hdfs namenode -format
+
+y
+-------------------------------------------
+$HADOOP_HOME/sbin/start-dfs.sh
+-----------------------------------------
+vim $HADOOP_HOME/etc/hadoop/hadoop-env.sh
+
+>JAVA_HOME=/usr/lib/jvm/java-11-openjdk-amd64
+---------------------------------------------
+
+vim $HADOOP_HOME/etc/hadoop/hdfs-site.xml
+
+
+시작전 먼저 스탑하고 시작함
+
+$HADOOP_HOME/sbin/stop-dfs.sh
+
+
+$HADOOP_HOME/sbin/start-dfs.sh
+
+>> 결과 
+
+<configuration>
+        <property>
+                <name>dfs.namenode.http-address</name>
+                <value>15.152.211.160:9870</value>
+        </property>
+        <property>
+                <name>dfs.replication</name>
+                <value>1</value>
+        </property>
+        <property>
+                <name>dfs.namenode.name.dir</name>
+                <value>/home/ubuntu/hadoop-3.3.5/dfs/name</value>
+        </property>
+        <property>
+                <name>dfs.datanode.name.dir</name>
+                <value>/home/ubuntu/hadoop-3.3.5/dfs/data</value>
+        </property>
+        <property>
+                <name>dfs.namenode.http-address</name>
+                <value>0.0.0.0:9870</value>
+        </property>
+
+</configuration>
+
+
+
+
+----------------------------------
+$HADOOP_HOME/sbin/start-yarn.sh
+------------------------------
+>예제
+hadoop jar $HADOOP_HOME/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.3.5.jar pi 16 10000
+_-----------------------------------------------
+

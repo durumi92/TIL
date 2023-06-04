@@ -1,0 +1,50 @@
+# spark 다운로드
+
+wget https://dlcdn.apache.org/spark/spark-3.2.4/spark-3.2.4-bin-hadoop3.2.tgz
+
+tar xvfz spark-3.2.4-bin-hadoop3.2.tgz
+
+mv spark-3.2.4-bin-hadoop3.2 spark-3.2.4
+
+ vim ~/.bashrc
+
+#SPARK PATH
+export SPARK_HOME=/home/ubuntu/spark-3.2.4
+export PARH=$PATH:$SPARK_HOME/bin
+
+
+ source ~/.bashrc
+
+
+cd $SPARK_HOME  확인용
+
+ cd ~
+ conda activate spark_env
+--------------
+which python
+>>결과
+/home/ubuntu/miniconda3/envs/spark_env/bin/python
+
+복사해야함
+
+----------------------
+vim $SPARK_HOME/conf/spark-env.sh
+
+export PYSPARK_PYTHON=/home/ubuntu/miniconda3/envs/spark_env/bin/python
+
+
+>>> 파이스파크 설치 시 스파크 버전을 일치 시켜야 한다
+
+pip install pyspark==3.2.4
+
+
+pyspark
+
+--------------------------
+sc
+
+spark
+
+객체들이 잘 나오는 것이 
+
+나가기 :  Ctrl + d
